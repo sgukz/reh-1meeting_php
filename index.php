@@ -55,7 +55,7 @@
                                     <div class="row">
                                         <div class="input-field col s12">
                                             <i class="fa fa-user prefix"></i>
-                                            <input type="text" id="userId" name="userId" value="<?=(isset($_GET["userId"])? $_GET["userId"]: "")?>">
+                                            <input type="text" id="userId" name="userId" value="<?= (isset($_GET["userId"]) ? $_GET["userId"] : "") ?>">
                                             <input id="fullname" name="fullname" type="text" class="validate" required>
                                             <label for="fullname">ชื่อ - สกุล</label>
                                         </div>
@@ -328,29 +328,29 @@
             // $("#lebel-scan").removeClass("hidden");
             // $("#section-data").removeClass("hidden");
         }
+
+        function scanCode() {
+            liff.scanCode().then((data) => {
+                const stringifiedResult = data;
+                liff
+                    .getProfile()
+                    .then((profile) => {
+                        const userId = profile.userId;
+                        checkUser(userId)
+                    })
+                    .catch((err) => {
+                        console.log("error", err);
+                    });
+            });
+        }
+        liff.init({
+                liffId: "1655384297-Gl97j7de",
+            },
+            () => {},
+            (err) => alert(error.message)
+
+        );
     });
-
-    function scanCode() {
-        liff.scanCode().then((data) => {
-            const stringifiedResult = data;
-            liff
-                .getProfile()
-                .then((profile) => {
-                    const userId = profile.userId;
-                    checkUser(userId)
-                })
-                .catch((err) => {
-                    console.log("error", err);
-                });
-        });
-    }
-    liff.init({
-            liffId: "1655384297-Gl97j7de",
-        },
-        () => {},
-        (err) => alert(error.message)
-
-    );
 
     function formateDate(dateTime) {
         let thmonth = {
