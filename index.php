@@ -148,10 +148,9 @@
 <script src="https://static.line-scdn.net/liff/edge/2.1/liff.js"></script>
 <script>
     function scanCode() {
-        // alert(1)
         liff.scanCode().then((data) => {
-            const stringifiedResult = JSON.stringify(data);
-            alert(stringifiedResult);
+            const stringifiedResult = data;
+            alert(stringifiedResult.value)
             // liff
             //     .getProfile()
             //     .then((profile) => {
