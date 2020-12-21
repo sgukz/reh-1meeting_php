@@ -126,8 +126,8 @@
                         ธันวาคม 2563 เวลา 16.59น.</span> -->
                         <br>
                         <div class="center-align" id="section_btn_check">
-                            <button type="button" id="btn_check_in" class="waves-effect waves-light btn green accent-4"><b>Check-in</b></button>
-                            <button type="button" id="btn_check_out" class="waves-effect waves-light btn red darken-3"><b>Check-Out</b></button>
+                            <button type="button" id="btn_check_in_" class="waves-effect waves-light btn green accent-4"><b>Check-in</b></button>
+                            <button type="button" id="btn_check_out_" class="waves-effect waves-light btn red darken-3"><b>Check-Out</b></button>
                         </div>
                     </div>
                 </div>
@@ -152,15 +152,16 @@
         const urlParams = new URLSearchParams(queryString);
         const meeting_id = urlParams.get('docno')
         const page = urlParams.get('page')
-        let base_url = "http://61.19.127.228:5050";
+        let base_url = "https://service-api-1meeting.herokuapp.com";
+        // let base_url = "http://localhost:8000";
         const userID = ($("#userId").val() !== "" ? $("#userId").val() : 0);
         let today = new Date().getTime();
         console.log("userId = " + userID);
-        $("#btn_check_in").click(function() {
+        $("#btn_check_in_").click(function() {
             saveCheckin(userID, meeting_id, 1);
         });
 
-        $("#btn_check_out").click(function() {
+        $("#btn_check_out_").click(function() {
             saveCheckin(userID, meeting_id, 2);
         });
 
