@@ -55,7 +55,7 @@
                                     <div class="row">
                                         <div class="input-field col s12">
                                             <i class="fa fa-user prefix"></i>
-                                            <input type="hidden" id="userId" name="userId" value="">
+                                            <input type="text" id="userId" name="userId" value="<?=(isset($_GET["userId"])? $_GET["userId"]: "")?>">
                                             <input id="fullname" name="fullname" type="text" class="validate" required>
                                             <label for="fullname">ชื่อ - สกุล</label>
                                         </div>
@@ -151,10 +151,10 @@
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const meeting_id = urlParams.get('docno')
+        const userID = urlParams.get('userId')
         const page = urlParams.get('page')
         let base_url = "https://service-api-1meeting.herokuapp.com";
         // let base_url = "http://localhost:8000";
-        const userID = ($("#userId").val() !== "" ? $("#userId").val() : 0);
         let today = new Date().getTime();
         // console.log("userId = " + userID);
         $("#btn_check_in").click(function() {
@@ -337,7 +337,7 @@
                 .getProfile()
                 .then((profile) => {
                     const userId = profile.userId;
-                    alert(userId)
+                    checkUser(userId)
                 })
                 .catch((err) => {
                     console.log("error", err);
