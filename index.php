@@ -318,11 +318,9 @@
                         .done((resp) => {
                             let data = resp
                             if (data.code === 200) {
-                                window.location = `${stringifiedResult}&userId=${userId}`;
+                                alert("มีแล้ว")
                             } else if (data.code === 400) {
-                                setTimeout(() => {
-                                    window.location = `${stringifiedResult}&page=register&userId=${userId}`;
-                                }, 1000)
+                                alert("ยังไม่มี")
                             }
                         })
                         .fail((error) => {
