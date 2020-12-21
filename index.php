@@ -147,30 +147,7 @@
 <script src="src/assets/js/sweetalert2.js"></script>
 <script src="https://static.line-scdn.net/liff/edge/2.1/liff.js"></script>
 <script>
-    function scanCode() {
-        liff.scanCode().then((data) => {
-            const stringifiedResult = data;
-            alert(stringifiedResult.value)
-            // liff
-            //     .getProfile()
-            //     .then((profile) => {
-            //         const userId = profile.userId;
-            //         alert(userId)
-            //     })
-            //     .catch((err) => {
-            //         console.log("error", err);
-            //     });
-        });
-    }
-    liff.init({
-            liffId: "1655384297-Gl97j7de",
-        },
-        () => {},
-        (err) => alert(error.message)
-
-    );
     $(document).ready(function() {
-        $()
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const meeting_id = urlParams.get('docno')
@@ -352,6 +329,28 @@
             // $("#section-data").removeClass("hidden");
         }
     });
+
+    function scanCode() {
+        liff.scanCode().then((data) => {
+            const stringifiedResult = data;
+            liff
+                .getProfile()
+                .then((profile) => {
+                    const userId = profile.userId;
+                    alert(userId)
+                })
+                .catch((err) => {
+                    console.log("error", err);
+                });
+        });
+    }
+    liff.init({
+            liffId: "1655384297-Gl97j7de",
+        },
+        () => {},
+        (err) => alert(error.message)
+
+    );
 
     function formateDate(dateTime) {
         let thmonth = {
