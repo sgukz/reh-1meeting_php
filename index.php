@@ -148,22 +148,23 @@
 <script src="https://static.line-scdn.net/liff/edge/2.1/liff.js"></script>
 <script>
     function scanCode() {
-        liff.scanCode().then((data) => {
-            const stringifiedResult = JSON.stringify(data);
-            alert(stringifiedResult);
-            // liff
-            //     .getProfile()
-            //     .then((profile) => {
-            //         const userId = profile.userId;
-            //         alert(userId)
-            //     })
-            //     .catch((err) => {
-            //         console.log("error", err);
-            //     });
-        });
+        alert(1)
+        // liff.scanCode().then((data) => {
+        //     const stringifiedResult = JSON.stringify(data);
+        //     alert(stringifiedResult);
+        //     liff
+        //         .getProfile()
+        //         .then((profile) => {
+        //             const userId = profile.userId;
+        //             alert(userId)
+        //         })
+        //         .catch((err) => {
+        //             console.log("error", err);
+        //         });
+        // });
     }
     liff.init({
-            liffId: "1655384297-5WyBeB7b",
+            liffId: "1655384297-Gl97j7de",
         },
         () => {},
         (err) => alert(error.message)
