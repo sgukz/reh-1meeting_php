@@ -16,14 +16,14 @@
             font-family: 'Kanit', sans-serif !important;
             background-color: #CCCCCC;
         }
-        
+
         .item-center {
             position: fixed;
             left: 50%;
             top: 42%;
             text-align: center;
         }
-        
+
         .hidden {
             display: none;
         }
@@ -147,7 +147,30 @@
 <script src="src/assets/js/sweetalert2.js"></script>
 <script src="https://static.line-scdn.net/liff/edge/2.1/liff.js"></script>
 <script>
+    function scanCode() {
+        liff.scanCode().then((data) => {
+            const stringifiedResult = JSON.stringify(data);
+            alert(stringifiedResult);
+            // liff
+            //     .getProfile()
+            //     .then((profile) => {
+            //         const userId = profile.userId;
+            //         alert(userId)
+            //     })
+            //     .catch((err) => {
+            //         console.log("error", err);
+            //     });
+        });
+    }
+    liff.init({
+            liffId: "1655384297-5WyBeB7b",
+        },
+        () => {},
+        (err) => alert(error.message)
+
+    );
     $(document).ready(function() {
+        $()
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const meeting_id = urlParams.get('docno')
@@ -156,7 +179,7 @@
         // let base_url = "http://localhost:8000";
         const userID = ($("#userId").val() !== "" ? $("#userId").val() : 0);
         let today = new Date().getTime();
-        console.log("userId = " + userID);
+        // console.log("userId = " + userID);
         $("#btn_check_in").click(function() {
             saveCheckin(userID, meeting_id, 1);
         });
@@ -357,28 +380,6 @@
         let timer = `${time_1[0]}:${time_1[1]}น.`;
         return `${timer}`;
     }
-
-    function scanCode() {
-        liff.scanCode().then((data) => {
-            const stringifiedResult = JSON.stringify(data);
-            alert(stringifiedResult);
-            liff
-                .getProfile()
-                .then((profile) => {
-                    const userId = profile.userId;
-                    alert(userId)
-                })
-                .catch((err) => {
-                    console.log("error", err);
-                });
-        });
-    }
-    liff.init({
-            liffId: "1655384297-5WyBeB7b",
-        },
-        () => {},
-        (err) => console.error(err.code, error.message)
-    );
 </script>
 
 </html>
