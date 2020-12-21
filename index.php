@@ -310,22 +310,23 @@
                 .getProfile()
                 .then((profile) => {
                     const userId = profile.userId;
-                    $.ajax({
-                            method: "GET",
-                            url: `${base_url}/checkUser/${userId}`,
-                            data: ""
-                        })
-                        .done((resp) => {
-                            let data = resp
-                            if (data.code === 200) {
-                                alert("มีแล้ว")
-                            } else if (data.code === 400) {
-                                alert("ยังไม่มี")
-                            }
-                        })
-                        .fail((error) => {
-                            console.log(error);
-                        })
+                    alert(userId)
+                    // $.ajax({
+                    //         method: "GET",
+                    //         url: `${base_url}/checkUser/${userId}`,
+                    //         data: ""
+                    //     })
+                    //     .done((resp) => {
+                    //         let data = resp
+                    //         if (data.code === 200) {
+                    //             alert("มีแล้ว")
+                    //         } else if (data.code === 400) {
+                    //             alert("ยังไม่มี")
+                    //         }
+                    //     })
+                    //     .fail((error) => {
+                    //         console.log(error);
+                    //     })
                 })
                 .catch((err) => {
                     console.log("error", err);
