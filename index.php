@@ -154,9 +154,7 @@
         const userID = urlParams.get('userId')
         const page = urlParams.get('page')
         let base_url = "https://service-api-1meeting.herokuapp.com";
-        // let base_url = "http://localhost:8000";
         let today = new Date().getTime();
-        // console.log("userId = " + userID);
         $("#btn_check_in").click(function() {
             saveCheckin(userID, meeting_id, 1);
         });
@@ -166,7 +164,6 @@
         });
 
         $("#form_register").submit((e) => {
-            // console.log(JSON.stringify());
             $.ajax({
                     method: "POST",
                     url: `${base_url}/saveRegister`,
@@ -201,30 +198,6 @@
                 })
             e.preventDefault();
         });
-
-        function checkUser(userId) {
-            $.ajax({
-                    method: "GET",
-                    url: `${base_url}/checkUser/${userId}`,
-                    data: ""
-                })
-                .done((resp) => {
-                    let data = resp
-                    console.log(data);
-                    if (data.code === 200) {
-                        setTimeout(() => {
-                            window.location = `?docno=${meeting_id}`;
-                        }, 1000)
-                    } else if (data.code === 400) {
-                        setTimeout(() => {
-                            window.location = `?docno=${meeting_id}&page=register`;
-                        }, 1000)
-                    }
-                })
-                .fail((error) => {
-                    console.log(error);
-                })
-        }
 
         function saveCheckin(userId, docno, is_check) {
             let data = {
@@ -336,7 +309,24 @@
                     .getProfile()
                     .then((profile) => {
                         const userId = profile.userId;
-                        checkUser(userId)
+                        $.ajax({
+                                method: "GET",
+                                url: `${base_url}/checkUser/${userId}`,
+                                data: ""
+                            })
+                            .done((resp) => {
+                                let data = resp
+                                if (data.code === 200) {
+                                    window.location = `${stringifiedResult}&userId=${userId}`;
+                                } else if (data.code === 400) {
+                                    setTimeout(() => {
+                                        window.location = `${stringifiedResult}&page=register&userId=${userId}`;
+                                    }, 1000)
+                                }
+                            })
+                            .fail((error) => {
+                                console.log(error);
+                            })
                     })
                     .catch((err) => {
                         console.log("error", err);
