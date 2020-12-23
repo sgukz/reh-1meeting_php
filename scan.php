@@ -68,24 +68,13 @@
     function scanCode() {
         liff.scanCode().then((data) => {
             const stringifiedResult = data;
-            alert(userID);
-            // window.location.href = stringifiedResult.value+"&userId="+userID;
+            window.location.href = stringifiedResult.value+"&userId="+userID;
         });
-    }
-
-    function getProfileUser() {
-        liff
-            .getProfile()
-            .then((profile) => {
-                const userId = profile.userId;
-                $("#userId").val(userId);
-            })
     }
     liff.init({
             liffId: "1655384297-Y7egqg67",
         },
         () => {
-            getProfileUser();
         }, (err) => alert(err.message)
     );
 </script>

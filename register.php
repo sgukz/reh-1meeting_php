@@ -146,7 +146,9 @@
                         'text': "กรุณารอสักครู่...",
                         'showConfirmButton': false,
                     })
-
+                    setTimeout(() => {
+                        window.location = "scan.php?userId="+data.data;
+                    },1000)
                 } else {
                     $("#loading").addClass("hidden");
                     Swal.fire({
@@ -185,7 +187,7 @@
                                     'showConfirmButton': false,
                                 })
                             }, 1000);
-                            window.location = "scan.php";
+                            window.location = "scan.php?userId="+userId;
                         } else if (data.code === 400) {
                             $("#loading").addClass("hidden");
                         }
