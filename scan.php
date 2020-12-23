@@ -51,6 +51,7 @@
         </div>
         <div id="section-scan">
             <div class="col s12 center-align">
+                <input type="hidden" id="userId" value="<?=$_GET["userId"]?>">
                 <a class="waves-effect waves-light btn-large pink accent-3 pulse" onclick="scanCode();">
                     <i class="fa fa-qrcode fa-lg" aria-hidden="true"></i><b> SCAN QR Code</b></a>
             </div>
@@ -63,11 +64,11 @@
 <script src="src/assets/js/sweetalert2.js"></script>
 <script src="https://static.line-scdn.net/liff/edge/2.1/liff.js"></script>
 <script>
-
+    let userID = $("#userId").val();
     function scanCode() {
         liff.scanCode().then((data) => {
             const stringifiedResult = data;
-            window.location.href = stringifiedResult.value+"&userId=<?=$_GET["userId"]?>";
+            window.location.href = stringifiedResult.value+"&userId="+userID;
         });
     }
     liff.init({

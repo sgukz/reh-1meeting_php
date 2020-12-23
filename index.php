@@ -45,6 +45,8 @@
             <div id="profile"></div>
             <div class="card">
                 <div class="card-content">
+                    <input type="hidden" id="docno" value="<?= $_GET["docno"]?>">
+                    <input type="hidden" id="userId" value="<?= $_GET["userId"]?>">
                     <div class="section hidden" id="section-data">
                         <div id="meeting_name" style="margin-bottom: 15px"></div>
                         <div id="meeting_date"></div>
@@ -74,8 +76,8 @@
 <script src="src/assets/js/sweetalert2.js"></script>
 <script src="https://static.line-scdn.net/liff/edge/2.1/liff.js"></script>
 <script>
-    const meeting_id = <?= (isset($_GET["docno"]) ? $_GET["docno"] : "") ?>
-    const userID = <?= (isset($_GET["userId"]) ? $_GET["userId"] : "") ?>
+    let meeting_id = $("#docno").val();
+    let userID = $("#userId").val();
     let base_url = "https://service-api-1meeting.herokuapp.com";
     let today = new Date().getTime();
     $("#btn_check_in").click(function() {
@@ -107,7 +109,7 @@
                         'showConfirmButton': false,
                     })
                     setTimeout(() => {
-                        window.location = `?docno=${data.data}`;
+                        window.location = `?docno=${data.data}&userId=${userId}`;
                     }, 1000)
                 }
             })
@@ -124,7 +126,7 @@
         .done((resp) => {
             // console.log(resp);
             if (resp.code === 200) {
-                $("#loading").removeClass("hidden");
+                $("#loading").addClass("hidden");
                 let data = resp.data[0]
                 let endDate = new Date(data.end_date).getTime();
                 if (today > endDate) {
@@ -145,11 +147,11 @@
                 $("#meeting_time").html(meeting_time);
                 $.ajax({
                         method: "GET",
-                        url: `${base_url}/getMeetingRegisByUserID/${data.docno}/${userID}`,
+                        url: `${base_url}/getMeetingRegisByUserID/${meeting_id}/${userID}`,
                         data: ""
                     })
                     .done((resp) => {
-                        // console.log(resp);
+                        console.log(resp);
                         let dataRegis = (resp.data !== null) ? resp.data[0] : ""
                         if (dataRegis !== "") {
                             let meeting_total = `<strong><b>เข้าประชุมแล้ว ${dataRegis.cntMeeting}/${data.human_amount} คน</b></strong>`;
