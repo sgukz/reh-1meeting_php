@@ -115,6 +115,7 @@
             liffId: "1655384297-9KVyzyQd",
         },
         () => {
+            getProfileUser();
         }, (err) => alert(err.message)
     );
 </script>
