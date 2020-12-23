@@ -7,6 +7,7 @@
     <title>REH 1Meeting</title>
     <link rel="shortcut icon" href="src/assets/img/new_logo_reh.png" type="image/x-icon">
     <link rel="stylesheet" href="src/assets/css/materialize.min.css">
+    <link rel="stylesheet" href="src/assets/css/style.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
@@ -31,6 +32,7 @@
 </head>
 
 <body>
+    <div class="loading" id="loading">Loading&#8230;</div>
     <nav>
         <div class="nav-wrapper">
             <span href="#" class="brand-logo">
@@ -72,175 +74,113 @@
 <script src="src/assets/js/sweetalert2.js"></script>
 <script src="https://static.line-scdn.net/liff/edge/2.1/liff.js"></script>
 <script>
-    $(document).ready(function() {
-        const meeting_id = <?=(isset($_GET["meeting_id"]))?>
-        let base_url = "https://service-api-1meeting.herokuapp.com";
-        let today = new Date().getTime();
-        $("#btn_check_in").click(function() {
-            saveCheckin(userID, meeting_id, 1);
-        });
+    const meeting_id = <?= (isset($_GET["docno"]) ? $_GET["docno"] : "") ?>
+    const userID = <?= (isset($_GET["userId"]) ? $_GET["userId"] : "") ?>
+    let base_url = "https://service-api-1meeting.herokuapp.com";
+    let today = new Date().getTime();
+    $("#btn_check_in").click(function() {
+        saveCheckin(userID, meeting_id, 1);
+    });
 
-        $("#btn_check_out").click(function() {
-            saveCheckin(userID, meeting_id, 2);
-        });
+    $("#btn_check_out").click(function() {
+        saveCheckin(userID, meeting_id, 2);
+    });
 
-        $("#form_register").submit((e) => {
-            $.ajax({
-                    method: "POST",
-                    url: `${base_url}/saveRegister`,
-                    data: $("#form_register").serialize(),
-                    beforeSend: function(e) {
-                        $("#preloader").removeClass("hidden");
-                        $("#btn_submit_regis").addClass("disabled");
-                    }
-                })
-                .done((resp) => {
-                    let data = resp
-                    if (data.code === 200) {
-                        Swal.fire({
-                            'icon': "success",
-                            'title': "ลงทะเบียนเรียบร้อย",
-                            'text': "กรุณารอสักครู่...",
-                            'showConfirmButton': false,
-                        })
-                        setTimeout(() => {
-                            window.location = `?docno=${meeting_id}`;
-                        }, 1000)
-                    } else {
-                        Swal.fire({
-                            'icon': "error",
-                            'title': data.msg,
-                            'text': data.data
-                        })
-                    }
-                })
-                .fail((error) => {
-                    console.log(error);
-                })
-            e.preventDefault();
-        });
+    function saveCheckin(userId, docno, is_check) {
+        let data = {
+            userId,
+            docno,
+            is_check,
+        };
+        $.ajax({
+                method: "POST",
+                url: `${base_url}/saveCheckin`,
+                data: data
+            })
+            .done((resp) => {
+                let data = resp
+                if (data.code === 200) {
+                    Swal.fire({
+                        'icon': "success",
+                        'title': data.msg,
+                        'text': "เรียบร้อย",
+                        'showConfirmButton': false,
+                    })
+                    setTimeout(() => {
+                        window.location = `?docno=${data.data}`;
+                    }, 1000)
+                }
+            })
+            .fail((error) => {
+                console.log(error);
+            })
+    }
 
-        function saveCheckin(userId, docno, is_check) {
-            let data = {
-                userId,
-                docno,
-                is_check,
-            };
-            $.ajax({
-                    method: "POST",
-                    url: `${base_url}/saveCheckin`,
-                    data: data
-                })
-                .done((resp) => {
-                    let data = resp
-                    if (data.code === 200) {
-                        Swal.fire({
-                            'icon': "success",
-                            'title': data.msg,
-                            'text': "เรียบร้อย",
-                            'showConfirmButton': false,
-                        })
-                        setTimeout(() => {
-                            window.location = `?docno=${data.data}`;
-                        }, 1000)
-                    }
-                })
-                .fail((error) => {
-                    console.log(error);
-                })
-        }
-        if (meeting_id !== null) {
-            if (page !== null) {
-                $("#btn_check_in").addClass("hidden");
+    $.ajax({
+            method: "GET",
+            url: `${base_url}/getMeetingByDocno/${meeting_id}`,
+            data: ""
+        })
+        .done((resp) => {
+            // console.log(resp);
+            if (resp.code === 200) {
+                $("#loading").removeClass("hidden");
+                let data = resp.data[0]
+                let endDate = new Date(data.end_date).getTime();
+                if (today > endDate) {
+                    $("#btn_check_in").addClass("hidden");
+                    $("#btn_check_out").addClass("hidden");
+                    $("#is_check_in").html(`<span class='red-text'><b>จบการประชุมแล้ว</b></span>`);
+                }
                 $("#section-scan").addClass("hidden");
                 $("#lebel-scan").addClass("hidden");
-            } else {
-                $("#section-form-register").addClass("hidden");
+                $("#section-data").removeClass("hidden");
+                let meeting_name = `<strong style='font-size: 16px;'><b>หัวข้อ : ${data.meeting_name}</b></strong>`;
+                let meeting_date = `<strong>ระหว่างวันที่ <b>${(formateDate(data.start_date) === formateDate(data.end_date) ? formateDate(data.start_date) : formateDate(data.start_date) + " - " + formateDate(data.end_date))}</b></strong>`;
+                let meeting_time = `<strong>เริ่มประชุมเวลา <b> ${formateTime(data.start_date)} - ${formateTime(data.end_date)}</b></strong>`;
+                let meeting_total = `<strong><b>เข้าประชุมแล้ว ${resp.total[0].total_meeting}/${data.human_amount} คน</b></strong>`;
+                $("#meeting_total").html(meeting_total);
+                $("#meeting_name").html(meeting_name);
+                $("#meeting_date").html(meeting_date);
+                $("#meeting_time").html(meeting_time);
                 $.ajax({
                         method: "GET",
-                        url: `${base_url}/getMeetingByDocno/${meeting_id}`,
+                        url: `${base_url}/getMeetingRegisByUserID/${data.docno}/${userID}`,
                         data: ""
                     })
                     .done((resp) => {
                         // console.log(resp);
-                        if (resp.code === 200) {
-                            let data = resp.data[0]
-                            let endDate = new Date(data.end_date).getTime();
-                            if (today > endDate) {
-                                $("#btn_check_in").addClass("hidden");
-                                $("#btn_check_out").addClass("hidden");
-                                $("#is_check_in").html(`<span class='red-text'><b>จบการประชุมแล้ว</b></span>`);
-                            }
-                            $("#section-scan").addClass("hidden");
-                            $("#lebel-scan").addClass("hidden");
-                            $("#section-data").removeClass("hidden");
-                            let meeting_name = `<strong style='font-size: 16px;'><b>หัวข้อ : ${data.meeting_name}</b></strong>`;
-                            let meeting_date = `<strong>ระหว่างวันที่ <b>${(formateDate(data.start_date) === formateDate(data.end_date) ? formateDate(data.start_date) : formateDate(data.start_date) + " - " + formateDate(data.end_date))}</b></strong>`;
-                            let meeting_time = `<strong>เริ่มประชุมเวลา <b> ${formateTime(data.start_date)} - ${formateTime(data.end_date)}</b></strong>`;
-                            let meeting_total = `<strong><b>เข้าประชุมแล้ว ${resp.total[0].total_meeting}/${data.human_amount} คน</b></strong>`;
+                        let dataRegis = (resp.data !== null) ? resp.data[0] : ""
+                        if (dataRegis !== "") {
+                            let meeting_total = `<strong><b>เข้าประชุมแล้ว ${dataRegis.cntMeeting}/${data.human_amount} คน</b></strong>`;
                             $("#meeting_total").html(meeting_total);
-                            $("#meeting_name").html(meeting_name);
-                            $("#meeting_date").html(meeting_date);
-                            $("#meeting_time").html(meeting_time);
-                            $.ajax({
-                                    method: "GET",
-                                    url: `${base_url}/getMeetingRegisByUserID/${data.docno}/${userID}`,
-                                    data: ""
-                                })
-                                .done((resp) => {
-                                    // console.log(resp);
-                                    let dataRegis = (resp.data !== null) ? resp.data[0] : ""
-                                    if (dataRegis !== "") {
-                                        let meeting_total = `<strong><b>เข้าประชุมแล้ว ${dataRegis.cntMeeting}/${data.human_amount} คน</b></strong>`;
-                                        $("#meeting_total").html(meeting_total);
-                                        if (dataRegis.check_in_date !== null) {
-                                            $("#btn_check_in").addClass("hidden");
-                                            if (dataRegis.check_out_date !== null) {
-                                                $("#btn_check_out").addClass("hidden");
-                                            }
-                                            // $("#btn_check_out").removeClass("hidden");
-                                            let is_check_in = `<span class="grey lighten-3 green-text" id="check_in_date">เข้าร่วมประชุมเมื่อ<br> 
+                            if (dataRegis.check_in_date !== null) {
+                                $("#btn_check_in").addClass("hidden");
+                                if (dataRegis.check_out_date !== null) {
+                                    $("#btn_check_out").addClass("hidden");
+                                }
+                                // $("#btn_check_out").removeClass("hidden");
+                                let is_check_in = `<span class="grey lighten-3 green-text" id="check_in_date">เข้าร่วมประชุมเมื่อ<br> 
                                     วันที่ ${formateDate(dataRegis.check_in_date)} เวลา ${formateTime(dataRegis.check_in_date)}</span>`;
-                                            $("#is_check_in").html(is_check_in);
-                                        }
-                                    }
-                                })
-
-
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'ไม่พบข้อมูล...',
-                                text: 'กรุณาลองใหม่อีกครั้ง',
-                            })
+                                $("#is_check_in").html(is_check_in);
+                            }
                         }
                     })
-            }
-        } else {
-            $("#section-scan").removeClass("hidden");
-            $("#section-form-register").addClass("hidden");
-            // $("#lebel-scan").removeClass("hidden");
-            // $("#section-data").removeClass("hidden");
-        }
-    });
 
-    function scanCode() {
-        liff.scanCode().then((data) => {
-            const stringifiedResult = data;
-            alert(stringifiedResult.value);
-            liff
-                .getProfile()
-                .then((profile) => {
-                    const userId = profile.userId;
-                    alert(userId);
+
+            } else {
+                $("#loading").removeClass("hidden");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ไม่พบข้อมูล...',
+                    text: 'กรุณาลองใหม่อีกครั้ง',
                 })
-                .catch((err) => {
-                    console.log("error", err);
-                });
-        });
-    }
+            }
+        })
+
+
     liff.init({
-            liffId: "1655384297-Gl97j7de",
+            liffId: "1655384297-Y7egqg67",
         },
         () => {},
         (err) => alert(error.message)
