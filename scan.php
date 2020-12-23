@@ -51,7 +51,7 @@
         </div>
         <div id="section-scan">
             <div class="col s12 center-align">
-                <input type="hidden" id="userId" value="<?=$_GET["userId"]?>">
+                <input type="hidden" id="userId" value="<?=isset($_GET["userId"])? $_GET["userId"]: ""?>">
                 <a class="waves-effect waves-light btn-large pink accent-3 pulse" onclick="scanCode();">
                     <i class="fa fa-qrcode fa-lg" aria-hidden="true"></i><b> SCAN QR Code</b></a>
             </div>
@@ -76,6 +76,16 @@
 
         });
     }
+
+    function getProfileUser() {
+        liff
+            .getProfile()
+            .then((profile) => {
+                const userId = profile.userId;
+                $("#userId").val(userId);
+            })
+    }
+
     liff.init({
             liffId: "1655384297-Y7egqg67",
         },
