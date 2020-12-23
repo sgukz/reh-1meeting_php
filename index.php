@@ -45,8 +45,8 @@
             <div id="profile"></div>
             <div class="card">
                 <div class="card-content">
-                    <input type="hidden" id="docno" value="<?= $_GET["docno"]?>">
-                    <input type="hidden" id="userId" value="<?= $_GET["userId"]?>">
+                    <input type="hidden" id="docno" value="<?= $_GET["docno"] ?>">
+                    <input type="hidden" id="userId" value="<?= $_GET["userId"] ?>">
                     <div class="section hidden" id="section-data">
                         <div id="meeting_name" style="margin-bottom: 15px"></div>
                         <div id="meeting_date"></div>
@@ -57,6 +57,8 @@
                         <!-- <strong >เข้าประชุมแล้ว 50 คน</strong> -->
                         <br>
                         <div id="is_check_in" class="center-align"></div>
+
+                        <div id="is_check_out" class="center-align"></div>
                         <!-- <span class="grey lighten-3 green-text" id="check_in_date">เข้าร่วมประชุมเมื่อ<br> วันที่ 17
                         ธันวาคม 2563 เวลา 16.59น.</span> -->
                         <br>
@@ -133,6 +135,7 @@
                     $("#btn_check_in").addClass("hidden");
                     $("#btn_check_out").addClass("hidden");
                     $("#is_check_in").html(`<span class='red-text'><b>จบการประชุมแล้ว</b></span>`);
+                    $("#is_check_out").html(`<span></span>`);
                 }
                 $("#section-scan").addClass("hidden");
                 $("#lebel-scan").addClass("hidden");
@@ -151,7 +154,7 @@
                         data: ""
                     })
                     .done((resp) => {
-                        console.log(resp);
+                        // console.log(resp);
                         let dataRegis = (resp.data !== null) ? resp.data[0] : ""
                         if (dataRegis !== "") {
                             let meeting_total = `<strong><b>เข้าประชุมแล้ว ${dataRegis.cntMeeting}/${data.human_amount} คน</b></strong>`;
@@ -160,6 +163,9 @@
                                 $("#btn_check_in").addClass("hidden");
                                 if (dataRegis.check_out_date !== null) {
                                     $("#btn_check_out").addClass("hidden");
+                                    let is_check_out = `<span class="grey lighten-3 red-text" id="check_in_date">ออกประชุมเมื่อ<br> 
+                                    วันที่ ${formateDate(dataRegis.check_out_date)} เวลา ${formateTime(dataRegis.check_out_date)}</span>`;
+                                    $("#is_check_out").html(is_check_out);
                                 }
                                 // $("#btn_check_out").removeClass("hidden");
                                 let is_check_in = `<span class="grey lighten-3 green-text" id="check_in_date">เข้าร่วมประชุมเมื่อ<br> 
