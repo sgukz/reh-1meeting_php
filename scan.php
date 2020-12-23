@@ -83,6 +83,31 @@
             .then((profile) => {
                 const userId = profile.userId;
                 $("#userId").val(userId);
+                $.ajax({
+                        method: "GET",
+                        url: `${base_url}/checkUser/${userId}`,
+                        data: ""
+                    })
+                    .done((resp) => {
+                        let data = resp
+                        if (data.code === 200) {
+                            $("#loading").addClass("hidden");
+                        } else if (data.code === 400) {
+                            $("#loading").addClass("hidden");
+                            setTimeout(() => {
+                                Swal.fire({
+                                    'icon': "error",
+                                    'title': "คุณยังไม่ลงทะเบียน",
+                                    'text': "กรุณารอสักครู่...",
+                                    'showConfirmButton': false,
+                                })
+                                window.location = "register.php";
+                            }, 1000);
+                        }
+                    })
+                    .fail((error) => {
+                        console.log(error);
+                    })
             })
     }
 

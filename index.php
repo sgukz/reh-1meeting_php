@@ -174,8 +174,6 @@
                             }
                         }
                     })
-
-
             } else {
                 $("#loading").removeClass("hidden");
                 Swal.fire({
