@@ -186,8 +186,8 @@
                                     'text': "กรุณารอสักครู่...",
                                     'showConfirmButton': false,
                                 })
+                                window.location = "scan.php?userId="+userId;
                             }, 1000);
-                            window.location = "scan.php?userId="+userId;
                         } else if (data.code === 400) {
                             $("#loading").addClass("hidden");
                         }
