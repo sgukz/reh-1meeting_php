@@ -7,6 +7,7 @@
     <title>REH 1Meeting</title>
     <link rel="shortcut icon" href="src/assets/img/new_logo_reh.png" type="image/x-icon">
     <link rel="stylesheet" href="src/assets/css/materialize.min.css">
+    <link rel="stylesheet" href="src/assets/css/style.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
@@ -31,6 +32,7 @@
 </head>
 
 <body>
+    <div class="loading" id="loading">Loading&#8230;</div>
     <nav>
         <div class="nav-wrapper">
             <span href="#" class="brand-logo">
@@ -51,7 +53,7 @@
         </div>
         <div id="section-scan">
             <div class="col s12 center-align">
-                <input type="hidden" id="userId" value="<?=isset($_GET["userId"])? $_GET["userId"]: ""?>">
+                <input type="hidden" id="userId" value="<?= isset($_GET["userId"]) ? $_GET["userId"] : "" ?>">
                 <a class="waves-effect waves-light btn-large pink accent-3 pulse" onclick="scanCode();">
                     <i class="fa fa-qrcode fa-lg" aria-hidden="true"></i><b> SCAN QR Code</b></a>
             </div>
@@ -65,12 +67,13 @@
 <script src="https://static.line-scdn.net/liff/edge/2.1/liff.js"></script>
 <script>
     let userID = $("#userId").val();
+
     function scanCode() {
         liff.scanCode().then((data) => {
             const stringifiedResult = data;
-            if(stringifiedResult.value !== "null"){
-                window.location.href = stringifiedResult.value+"&userId="+userID;
-            }else{
+            if (stringifiedResult.value !== "null") {
+                window.location.href = stringifiedResult.value + "&userId=" + userID;
+            } else {
                 liff.closeWindow();
             }
 
@@ -82,6 +85,7 @@
             .getProfile()
             .then((profile) => {
                 const userId = profile.userId;
+                alert(userId);
                 $("#userId").val(userId);
                 $.ajax({
                         method: "GET",
