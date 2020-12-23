@@ -107,7 +107,6 @@
                                     <button id="btn_submit_regis" class="btn waves-effect waves-light pink accent-3" type="submit">
                                         <i class="fa fa-save"></i> บันทึก
                                     </button>
-                                    <a href="scan.php" class="btn waves-effect waves-light pink accent-3">Scan QR Code</a>
                                 </form>
                             </div>
                         </form>
@@ -185,8 +184,8 @@
                                     'text': "กรุณารอสักครู่...",
                                     'showConfirmButton': false,
                                 })
-                            window.location = 'scan.php?userId='+userId;    
                             }, 1000);
+                            window.location = "scan.php?userId=" + userId;
                         } else if (data.code === 400) {
                             $("#loading").addClass("hidden");
                         }
