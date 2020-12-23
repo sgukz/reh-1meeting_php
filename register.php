@@ -7,6 +7,7 @@
     <title>ลงทะเบียน | REH 1Meeting</title>
     <link rel="shortcut icon" href="src/assets/img/new_logo_reh.png" type="image/x-icon">
     <link rel="stylesheet" href="src/assets/css/materialize.min.css">
+    <link rel="stylesheet" href="src/assets/css/style.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
@@ -31,6 +32,7 @@
 </head>
 
 <body>
+    <div class="loading" id="loading">Loading&#8230;</div>
     <nav>
         <div class="nav-wrapper">
             <span href="#" class="brand-logo">
@@ -134,12 +136,14 @@
                 data: $("#form_register").serialize(),
                 beforeSend: function(e) {
                     $("#preloader").removeClass("hidden");
+                    $("#loading").removeClass("hidden");
                     $("#btn_submit_regis").addClass("disabled");
                 }
             })
             .done((resp) => {
                 let data = resp
                 if (data.code === 200) {
+                    $("#loading").addClass("hidden");
                     Swal.fire({
                         'icon': "success",
                         'title': "ลงทะเบียนเรียบร้อย",
@@ -148,6 +152,7 @@
                     })
 
                 } else {
+                    $("#loading").addClass("hidden");
                     Swal.fire({
                         'icon': "error",
                         'title': data.msg,
@@ -175,9 +180,16 @@
                     .done((resp) => {
                         let data = resp
                         if (data.code === 200) {
-                            alert("มีแล้ว")
+                            $("#loading").addClass("hidden");
+                            setTimeout(() => {
+                                Swal.fire({
+                                    'icon': "success",
+                                    'title': "คุณลงทะเบียนแล้ว",
+                                    'text': "กรุณารอสักครู่...",
+                                })
+                            }, 1000);
                         } else if (data.code === 400) {
-                            alert("ยังไม่มี")
+                            $("#loading").addClass("hidden");
                         }
                     })
                     .fail((error) => {
