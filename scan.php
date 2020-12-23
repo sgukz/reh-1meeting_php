@@ -72,7 +72,7 @@
             if(stringifiedResult.value !== null){
                 window.location.href = stringifiedResult.value+"&userId="+userID;
             }else{
-                alert("Null")
+                liff.closeWindow();
             }
 
         });
