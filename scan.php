@@ -68,7 +68,9 @@
     function scanCode() {
         liff.scanCode().then((data) => {
             const stringifiedResult = data;
-            window.location.href = stringifiedResult.value+"&userId="+userID;
+            if(stringifiedResult.value !== null){
+                window.location.href = stringifiedResult.value+"&userId="+userID;
+            }
         });
     }
     liff.init({
