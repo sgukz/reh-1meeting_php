@@ -123,9 +123,6 @@
 <script src="src/assets/js/sweetalert2.js"></script>
 <script src="https://static.line-scdn.net/liff/edge/2.1/liff.js"></script>
 <script>
-    // $(document).ready(function() {
-
-    // });
     let base_url = "https://service-api-1meeting.herokuapp.com";
     let today = new Date().getTime();
 
@@ -186,8 +183,9 @@
                                     'icon': "success",
                                     'title': "คุณได้ทำการลงทะเบียนแล้ว",
                                     'text': "กรุณารอสักครู่...",
+                                    'showConfirmButton': false,
                                 })
-                            window.location = 'scan.php';    
+                            window.location = 'scan.php?userId='+userId;    
                             }, 1000);
                         } else if (data.code === 400) {
                             $("#loading").addClass("hidden");

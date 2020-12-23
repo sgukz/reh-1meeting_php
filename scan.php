@@ -45,6 +45,7 @@
                 <div class="card-content">
                     <div class="center-align" id="lebel-scan">
                         <strong class="blue-text"><b>กรุณา Scan QR Code เพื่อเข้าร่วมประชุม</b></strong>
+                        <p><?=(isset($_GET["userId"])? $_GET["userId"] : "userid")?></p>
                     </div>
                 </div>
             </div>
@@ -74,7 +75,6 @@
             liffId: "1655384297-Y7egqg67",
         },
         () => {
-            alert("scan page")
         }, (err) => alert(err.message)
     );
 </script>

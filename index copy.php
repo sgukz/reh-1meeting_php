@@ -43,6 +43,75 @@
             <div id="profile"></div>
             <div class="card">
                 <div class="card-content">
+                    <div id="section-form-register">
+                        <form id="form_register">
+                            <div class="row center-align">
+                                <form class="col s12">
+                                    <div class="row">
+                                        <div class="col s12">
+                                            <h6 class="blue-text"><b>กรุณากรอกข้อมูลให้ครบถ้วน</b></h6>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12">
+                                            <i class="fa fa-user prefix"></i>
+                                            <input type="text" id="userId" name="userId" value="<?= (isset($_GET["userId"]) ? $_GET["userId"] : "") ?>">
+                                            <input id="fullname" name="fullname" type="text" class="validate" required>
+                                            <label for="fullname">ชื่อ - สกุล</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12">
+                                            <i class="fa fa-bars prefix"></i>
+                                            <input id="position" name="position" type="text" class="validate" required>
+                                            <label for="position">ตำแหน่ง</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12">
+                                            <i class="fa fa-bars prefix"></i>
+                                            <input id="depart_name" name="depart_name" type="text" class="validate" required>
+                                            <label for="depart_name">หน่วยงาน</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12">
+                                            <i class="fa fa-phone prefix"></i>
+                                            <input id="phone" name="phone" type="text" class="validate" required>
+                                            <label for="phone">เบอร์โทร</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12">
+                                            <i class="fa fa-building prefix"></i>
+                                            <input id="main_company" name="main_company" type="text" class="validate" required>
+                                            <label for="main_company">ส่วนราชการ</label>
+                                        </div>
+                                    </div>
+                                    <div class="preloader-wrapper small active hidden" id="preloader">
+                                        <div class="spinner-layer spinner-blue-only">
+                                            <div class="circle-clipper left">
+                                                <div class="circle"></div>
+                                            </div>
+                                            <div class="gap-patch">
+                                                <div class="circle"></div>
+                                            </div>
+                                            <div class="circle-clipper right">
+                                                <div class="circle"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    &nbsp;&nbsp;
+                                    <button id="btn_submit_regis" class="btn waves-effect waves-light pink accent-3" type="submit">
+                                        <i class="fa fa-save"></i> บันทึก
+                                    </button>
+                                </form>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="center-align" id="lebel-scan">
+                        <strong class="blue-text"><b>กรุณา Scan QR Code เพื่อเข้าร่วมประชุม</b></strong>
+                    </div>
                     <div class="section hidden" id="section-data">
                         <div id="meeting_name" style="margin-bottom: 15px"></div>
                         <div id="meeting_date"></div>
@@ -64,6 +133,12 @@
                 </div>
             </div>
         </div>
+        <div id="section-scan">
+            <div class="col s12 center-align">
+                <a class="waves-effect waves-light btn-large pink accent-3 pulse" onclick="scanCode();">
+                    <i class="fa fa-qrcode fa-lg" aria-hidden="true"></i><b> SCAN QR Code</b></a>
+            </div>
+        </div>
     </div>
 </body>
 <script src="src/assets/js/jquery-3.5.1.min.js"></script>
@@ -73,7 +148,11 @@
 <script src="https://static.line-scdn.net/liff/edge/2.1/liff.js"></script>
 <script>
     $(document).ready(function() {
-        const meeting_id = <?=(isset($_GET["meeting_id"]))?>
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const meeting_id = urlParams.get('docno')
+        const userID = urlParams.get('userId')
+        const page = urlParams.get('page')
         let base_url = "https://service-api-1meeting.herokuapp.com";
         let today = new Date().getTime();
         $("#btn_check_in").click(function() {
