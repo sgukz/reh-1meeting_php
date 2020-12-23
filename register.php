@@ -185,7 +185,7 @@
                                     'showConfirmButton': false,
                                 })
                             }, 1000);
-                            window.location = "scan.php?userId=" + userId;
+                            window.location = "scan.php";
                         } else if (data.code === 400) {
                             $("#loading").addClass("hidden");
                         }
