@@ -68,8 +68,7 @@
     function scanCode() {
         liff.scanCode().then((data) => {
             const stringifiedResult = data;
-            alert(stringifiedResult.value)
-            if(stringifiedResult.value !== null){
+            if(stringifiedResult.value !== "null"){
                 window.location.href = stringifiedResult.value+"&userId="+userID;
             }else{
                 liff.closeWindow();
