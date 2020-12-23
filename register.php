@@ -184,9 +184,10 @@
                             setTimeout(() => {
                                 Swal.fire({
                                     'icon': "success",
-                                    'title': "คุณลงทะเบียนแล้ว",
+                                    'title': "คุณได้ทำการลงทะเบียนแล้ว",
                                     'text': "กรุณารอสักครู่...",
                                 })
+                            window.location = 'scan.php';    
                             }, 1000);
                         } else if (data.code === 400) {
                             $("#loading").addClass("hidden");
