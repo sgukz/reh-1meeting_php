@@ -105,6 +105,7 @@
                                     <button id="btn_submit_regis" class="btn waves-effect waves-light pink accent-3" type="submit">
                                         <i class="fa fa-save"></i> บันทึก
                                     </button>
+                                    <a href="scan.php" class="btn waves-effect waves-light pink accent-3">Scan QR Code</a>
                                 </form>
                             </div>
                         </form>
@@ -120,50 +121,44 @@
 <script src="src/assets/js/sweetalert2.js"></script>
 <script src="https://static.line-scdn.net/liff/edge/2.1/liff.js"></script>
 <script>
-    $(document).ready(function() {
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
-        const meeting_id = urlParams.get('docno')
-        const userID = urlParams.get('userId')
-        const page = urlParams.get('page')
-        let base_url = "https://service-api-1meeting.herokuapp.com";
-        let today = new Date().getTime();
+    // $(document).ready(function() {
 
-        $("#form_register").submit((e) => {
-            $.ajax({
-                    method: "POST",
-                    url: `${base_url}/saveRegister`,
-                    data: $("#form_register").serialize(),
-                    beforeSend: function(e) {
-                        $("#preloader").removeClass("hidden");
-                        $("#btn_submit_regis").addClass("disabled");
-                    }
-                })
-                .done((resp) => {
-                    let data = resp
-                    if (data.code === 200) {
-                        Swal.fire({
-                            'icon': "success",
-                            'title': "ลงทะเบียนเรียบร้อย",
-                            'text': "กรุณารอสักครู่...",
-                            'showConfirmButton': false,
-                        })
-                        setTimeout(() => {
-                            window.location = `?docno=${meeting_id}`;
-                        }, 1000)
-                    } else {
-                        Swal.fire({
-                            'icon': "error",
-                            'title': data.msg,
-                            'text': data.data
-                        })
-                    }
-                })
-                .fail((error) => {
-                    console.log(error);
-                })
-            e.preventDefault();
-        });
+    // });
+    let base_url = "https://service-api-1meeting.herokuapp.com";
+    let today = new Date().getTime();
+
+    $("#form_register").submit((e) => {
+        $.ajax({
+                method: "POST",
+                url: `${base_url}/saveRegister`,
+                data: $("#form_register").serialize(),
+                beforeSend: function(e) {
+                    $("#preloader").removeClass("hidden");
+                    $("#btn_submit_regis").addClass("disabled");
+                }
+            })
+            .done((resp) => {
+                let data = resp
+                if (data.code === 200) {
+                    Swal.fire({
+                        'icon': "success",
+                        'title': "ลงทะเบียนเรียบร้อย",
+                        'text': "กรุณารอสักครู่...",
+                        'showConfirmButton': false,
+                    })
+                    
+                } else {
+                    Swal.fire({
+                        'icon': "error",
+                        'title': data.msg,
+                        'text': data.data
+                    })
+                }
+            })
+            .fail((error) => {
+                console.log(error);
+            })
+        e.preventDefault();
     });
 
     function getProfileUser() {

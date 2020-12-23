@@ -306,12 +306,12 @@
     function scanCode() {
         liff.scanCode().then((data) => {
             const stringifiedResult = data;
-            alert(stringifiedResult.value)
+            alert(stringifiedResult.value);
             liff
                 .getProfile()
                 .then((profile) => {
                     const userId = profile.userId;
-                    alert(userId)
+                    alert(userId);
                     // $.ajax({
                     //         method: "GET",
                     //         url: `${base_url}/checkUser/${userId}`,
