@@ -70,10 +70,9 @@
             const stringifiedResult = data;
             alert(stringifiedResult.value)
             if(stringifiedResult.value !== null){
-                alert("Null")
-                // window.location.href = stringifiedResult.value+"&userId="+userID;
+                window.location.href = stringifiedResult.value+"&userId="+userID;
             }else{
-                alert("Not null")
+                alert("Null")
             }
 
         });
