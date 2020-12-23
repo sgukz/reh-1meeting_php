@@ -120,7 +120,6 @@
 <script src="src/assets/js/sweetalert2.js"></script>
 <script src="https://static.line-scdn.net/liff/edge/2.1/liff.js"></script>
 <script>
-    getProfileUser();
     $(document).ready(function() {
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
@@ -180,7 +179,7 @@
             liffId: "1655384297-Y7egqg67",
         },
         () => {
-            alert("1")
+            getProfileUser();
         }, (err) => alert(err.message)
     );
 </script>
