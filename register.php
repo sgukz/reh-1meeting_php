@@ -55,7 +55,7 @@
                                     <div class="row">
                                         <div class="input-field col s12">
                                             <i class="fa fa-user prefix"></i>
-                                            <input type="text" id="userId" name="userId" value="<?= (isset($_GET["userId"]) ? $_GET["userId"] : "") ?>">
+                                            <input type="hidden" id="userId" name="userId" value="<?= (isset($_GET["userId"]) ? $_GET["userId"] : "") ?>">
                                             <input id="fullname" name="fullname" type="text" class="validate" required>
                                             <label for="fullname">ชื่อ - สกุล</label>
                                         </div>
@@ -171,7 +171,7 @@
             .getProfile()
             .then((profile) => {
                 const userId = profile.userId;
-                alert(userId);
+                // alert(userId);
                 $("#userId").val(userId);
             })
     }
