@@ -72,9 +72,8 @@
             if(stringifiedResult.value !== null){
                 alert("Null")
                 // window.location.href = stringifiedResult.value+"&userId="+userID;
-            }
-            if(stringifiedResult.value !== ""){
-                alert("Empty")
+            }else{
+                alert("Not null")
             }
 
         });
