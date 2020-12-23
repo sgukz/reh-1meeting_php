@@ -70,8 +70,13 @@
             const stringifiedResult = data;
             alert(stringifiedResult.value)
             if(stringifiedResult.value !== null){
-                window.location.href = stringifiedResult.value+"&userId="+userID;
+                alert("Null")
+                // window.location.href = stringifiedResult.value+"&userId="+userID;
             }
+            if(stringifiedResult.value !== ""){
+                alert("Empty")
+            }
+
         });
     }
     liff.init({
