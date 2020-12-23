@@ -87,7 +87,7 @@
     }
 
     liff.init({
-            liffId: "1655384297-Y7egqg67",
+            liffId: "1655384297-9KVyzyQd",
         },
         () => {
         }, (err) => alert(err.message)
