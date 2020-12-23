@@ -67,7 +67,7 @@
 <script src="https://static.line-scdn.net/liff/edge/2.1/liff.js"></script>
 <script>
     let userID = $("#userId").val();
-
+    let base_url = "https://service-api-1meeting.herokuapp.com";
     function scanCode() {
         liff.scanCode().then((data) => {
             const stringifiedResult = data;
@@ -85,7 +85,6 @@
             .getProfile()
             .then((profile) => {
                 const userId = profile.userId;
-                alert(userId);
                 $("#userId").val(userId);
                 $.ajax({
                         method: "GET",
