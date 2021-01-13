@@ -57,7 +57,7 @@
                                     <div class="row">
                                         <div class="input-field col s12">
                                             <i class="fa fa-user prefix"></i>
-                                            <input type="hidden" id="userId" name="userId" value="<?= (isset($_GET["userId"]) ? $_GET["userId"] : "") ?>">
+                                            <input type="hidden" id="userId" name="userId" value="">
                                             <input id="fullname" name="fullname" type="text" class="validate" required>
                                             <label for="fullname">ชื่อ - สกุล</label>
                                         </div>
@@ -147,7 +147,7 @@
                         'showConfirmButton': false,
                     })
                     setTimeout(() => {
-                        window.location = "scan.php?userId="+data.data;
+                        window.location = "scan.php";
                     },1000)
                 } else {
                     $("#loading").addClass("hidden");
@@ -186,7 +186,7 @@
                                     'text': "กรุณารอสักครู่...",
                                     'showConfirmButton': false,
                                 })
-                                window.location = "scan.php?userId="+userId;
+                                window.location = "scan.php";
                             }, 1000);
                         } else if (data.code === 400) {
                             $("#loading").addClass("hidden");

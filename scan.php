@@ -53,7 +53,6 @@
         </div>
         <div id="section-scan">
             <div class="col s12 center-align">
-                <input type="hidden" id="userId" value="<?= isset($_GET["userId"]) ? $_GET["userId"] : "" ?>">
                 <a class="waves-effect waves-light btn-large pink accent-3 pulse" onclick="scanCode();">
                     <i class="fa fa-qrcode fa-lg" aria-hidden="true"></i><b> SCAN QR Code</b></a>
             </div>
@@ -66,13 +65,13 @@
 <script src="src/assets/js/sweetalert2.js"></script>
 <script src="https://static.line-scdn.net/liff/edge/2.1/liff.js"></script>
 <script>
-    let userID = $("#userId").val();
+    // let userID = $("#userId").val();
     let base_url = "https://service-api-1meeting.herokuapp.com";
     function scanCode() {
         liff.scanCode().then((data) => {
             const stringifiedResult = data;
             if (stringifiedResult.value !== "null") {
-                window.location.href = stringifiedResult.value + "&userId=" + userID;
+                window.location.href = stringifiedResult.value;
             } else {
                 liff.closeWindow();
             }
@@ -85,7 +84,6 @@
             .getProfile()
             .then((profile) => {
                 const userId = profile.userId;
-                $("#userId").val(userId);
                 $.ajax({
                         method: "GET",
                         url: `${base_url}/checkUser/${userId}`,
