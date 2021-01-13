@@ -87,9 +87,10 @@
             .then((profile) => {
                 const userId = profile.userId;
                 let is_check = 1;
+                let docno = meeting_id;
                 let data = {
                     userId,
-                    meeting_id,
+                    docno,
                     is_check,
                 };
                 $.ajax({
@@ -123,9 +124,10 @@
             .then((profile) => {
                 const userId = profile.userId;
                 let is_check = 2;
+                let docno = meeting_id;
                 let data = {
                     userId,
-                    meeting_id,
+                    docno,
                     is_check,
                 };
                 $.ajax({
