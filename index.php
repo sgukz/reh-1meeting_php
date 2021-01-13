@@ -32,7 +32,7 @@
 </head>
 
 <body>
-    <div class="loading" id="loading">Loading&#8230;</div>
+   <!-- <div class="loading" id="loading">Loading&#8230;</div> -->
     <nav>
         <div class="nav-wrapper">
             <span href="#" class="brand-logo">
@@ -45,6 +45,7 @@
             <div id="profile"></div>
             <div class="card">
                 <div class="card-content">
+                    <button type="button" id="btn_check_in" onclick="checkIn()" class="waves-effect waves-light btn green accent-4"><b>Check-in</b></button>
                     <input type="hidden" id="docno" value="<?= $_GET["docno"] ?>">
                     <div class="section hidden" id="section-data">
                         <div id="meeting_name" style="margin-bottom: 15px"></div>
