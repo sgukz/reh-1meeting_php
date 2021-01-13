@@ -107,7 +107,7 @@
                                 'showConfirmButton': false,
                             })
                             setTimeout(() => {
-                                window.location = `?docno=${data.data}`;
+                                window.location.reload();
                             }, 1000)
                         }
                     })
@@ -143,7 +143,7 @@
                                 'showConfirmButton': false,
                             })
                             setTimeout(() => {
-                                window.location = `?docno=${data.data}`;
+                                window.location.reload();
                             }, 1000)
                         }
                     })
