@@ -53,7 +53,7 @@
         </div>
         <div id="section-scan">
             <div class="col s12 center-align">
-                <a class="waves-effect waves-light btn-large pink accent-3 pulse" onclick="scanCode();">
+                <a class="waves-effect waves-light btn-large pink accent-3 pulse" id="scanQRCode">
                     <i class="fa fa-qrcode fa-lg" aria-hidden="true"></i><b> SCAN QR Code</b></a>
             </div>
         </div>
@@ -67,6 +67,9 @@
 <script>
     // let userID = $("#userId").val();
     let base_url = "https://service-api-1meeting.herokuapp.com";
+    $("#scanQRCode").click(function(){
+        scanCode();
+    });
     function scanCode() {
         liff.scanCode().then((data) => {
             const stringifiedResult = data;
