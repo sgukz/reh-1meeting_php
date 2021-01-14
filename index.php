@@ -32,7 +32,7 @@
 </head>
 
 <body>
-   <!-- <div class="loading" id="loading">Loading&#8230;</div> -->
+    <div class="loading" id="loading">Loading&#8230;</div>
     <nav>
         <div class="nav-wrapper">
             <span href="#" class="brand-logo">
@@ -80,6 +80,7 @@
     let meeting_id = $("#docno").val();
     let base_url = "https://service-api-1meeting.herokuapp.com";
     let today = new Date().getTime();
+    loadData();
 
     function checkIn() {
         liff
@@ -191,6 +192,7 @@
     //             console.log(error);
     //         })
     // }
+
     function loadData() {
         liff
             .getProfile()
@@ -206,7 +208,12 @@
                         if (resp.code === 200) {
                             $("#loading").addClass("hidden");
                             let data = resp.data[0]
+                            let startDate = new Date(data.start_date).getTime();
                             let endDate = new Date(data.end_date).getTime();
+                            if ((startDate - today) / 1000 > 1800) {
+                                $("#section_btn_check").addClass("hidden");
+                                $("#is_check_in").html(`<span class='green-text'><b>สามารถเช็คอินเข้าห้องประชุมได้ก่อน 30 นาที</b></span>`);
+                            }
                             if (today > endDate) {
                                 $("#btn_check_in").addClass("hidden");
                                 $("#btn_check_out").addClass("hidden");
@@ -264,9 +271,7 @@
     liff.init({
             liffId: "1655384297-Y7egqg67",
         },
-        () => {
-            loadData();
-        },
+        () => {},
         (err) => alert(error.message)
 
     );
