@@ -80,7 +80,7 @@
     let meeting_id = $("#docno").val();
     let base_url = "https://service-api-1meeting.herokuapp.com";
     let today = new Date().getTime();
-    loadData();
+    // loadData();
 
     function checkIn() {
         liff
@@ -271,7 +271,9 @@
     liff.init({
             liffId: "1655384297-Y7egqg67",
         },
-        () => {},
+        () => {
+            loadData();
+        },
         (err) => alert(error.message)
 
     );
