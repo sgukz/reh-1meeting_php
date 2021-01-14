@@ -79,7 +79,10 @@
                 liff.closeWindow();
             }
 
-        });
+        })
+        .error((err) => {
+            alert(JSON.stringify(err));
+        })
     }
 
     function getProfileUser() {
