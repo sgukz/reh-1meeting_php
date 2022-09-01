@@ -78,9 +78,8 @@
 <script src="https://static.line-scdn.net/liff/edge/2.1/liff.js"></script>
 <script>
     let meeting_id = $("#docno").val();
-    let base_url = "https://service-api-1meeting.herokuapp.com";
+    let base_url = "http://api.reh.go.th";
     let today = new Date().getTime();
-    // loadData();
 
     function checkIn() {
         liff
@@ -155,43 +154,6 @@
                     })
             });
     }
-    // $("#btn_check_in").click(function() {
-    //     saveCheckin(userID, meeting_id, 1);
-    // });
-
-    // $("#btn_check_out").click(function() {
-    //     saveCheckin(userID, meeting_id, 2);
-    // });
-
-    // function saveCheckin(userId, docno, is_check) {
-    //     let data = {
-    //         userId,
-    //         docno,
-    //         is_check,
-    //     };
-    //     $.ajax({
-    //             method: "POST",
-    //             url: `${base_url}/saveCheckin`,
-    //             data: data
-    //         })
-    //         .done((resp) => {
-    //             let data = resp
-    //             if (data.code === 200) {
-    //                 Swal.fire({
-    //                     'icon': "success",
-    //                     'title': data.msg,
-    //                     'text': "เรียบร้อย",
-    //                     'showConfirmButton': false,
-    //                 })
-    //                 setTimeout(() => {
-    //                     window.location = `?docno=${data.data}`;
-    //                 }, 1000)
-    //             }
-    //         })
-    //         .fail((error) => {
-    //             console.log(error);
-    //         })
-    // }
 
     function loadData() {
         liff
@@ -269,7 +231,7 @@
             });
     }
     liff.init({
-            liffId: "1655384297-Y7egqg67",
+            liffId: "1655384297-P9kwxwNX",
         },
         () => {
             loadData();

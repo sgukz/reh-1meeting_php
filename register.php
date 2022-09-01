@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ลงทะเบียน | REH 1Meeting</title>
+    <title>Register | REH 1Meeting</title>
     <link rel="shortcut icon" href="src/assets/img/new_logo_reh.png" type="image/x-icon">
     <link rel="stylesheet" href="src/assets/css/materialize.min.css">
     <link rel="stylesheet" href="src/assets/css/style.css">
@@ -51,43 +51,45 @@
                                 <form class="col s12">
                                     <div class="row">
                                         <div class="col s12">
-                                            <h6 class="blue-text"><b>กรุณากรอกข้อมูลให้ครบถ้วน</b></h6>
+                                            <h3 class="blue-text">Register</h3>
+                                            <h6 class="grey-text"><b>Please fill out the information completely.</b></h6>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s12">
                                             <i class="fa fa-user prefix"></i>
                                             <input type="hidden" id="userId" name="userId" value="">
+                                            <input type="hidden" id="docno" value="<?= $_GET["docno"] ?>">
                                             <input id="fullname" name="fullname" type="text" class="validate" required>
-                                            <label for="fullname">ชื่อ - สกุล</label>
+                                            <label for="fullname">Fullname</label>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s12">
                                             <i class="fa fa-bars prefix"></i>
                                             <input id="position" name="position" type="text" class="validate" required>
-                                            <label for="position">ตำแหน่ง</label>
+                                            <label for="position">Position</label>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s12">
                                             <i class="fa fa-bars prefix"></i>
                                             <input id="depart_name" name="depart_name" type="text" class="validate" required>
-                                            <label for="depart_name">หน่วยงาน</label>
+                                            <label for="depart_name">Department</label>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s12">
                                             <i class="fa fa-phone prefix"></i>
                                             <input id="phone" name="phone" type="text" class="validate" required>
-                                            <label for="phone">เบอร์โทร</label>
+                                            <label for="phone">Phone</label>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s12">
                                             <i class="fa fa-building prefix"></i>
                                             <input id="main_company" name="main_company" type="text" class="validate" required>
-                                            <label for="main_company">ส่วนราชการ</label>
+                                            <label for="main_company">Government</label>
                                         </div>
                                     </div>
                                     <div class="preloader-wrapper small active hidden" id="preloader">
@@ -105,7 +107,7 @@
                                     </div>
                                     &nbsp;&nbsp;
                                     <button id="btn_submit_regis" class="btn waves-effect waves-light pink accent-3" type="submit">
-                                        <i class="fa fa-save"></i> บันทึก
+                                        <i class="fa fa-save"></i> Save
                                     </button>
                                 </form>
                             </div>
@@ -118,11 +120,13 @@
 </body>
 <script src="src/assets/js/jquery-3.5.1.min.js"></script>
 <script src="src/assets/js/materialize.min.js"></script>
+<script src="src/assets/js/jquery.validate.min.js"></script>
 <script src="src/assets/js/main.js"></script>
 <script src="src/assets/js/sweetalert2.js"></script>
 <script src="https://static.line-scdn.net/liff/edge/2.1/liff.js"></script>
 <script>
-    let base_url = "https://service-api-1meeting.herokuapp.com";
+    let meetingId = $("#docno").val();
+    let base_url = "https://api.reh.go.th:9000";
     let today = new Date().getTime();
 
     $("#form_register").submit((e) => {
@@ -140,21 +144,29 @@
                 let data = resp
                 if (data.code === 200) {
                     $("#loading").addClass("hidden");
+                    let timerInterval
                     Swal.fire({
-                        'icon': "success",
-                        'title': "ลงทะเบียนเรียบร้อย",
-                        'text': "กรุณารอสักครู่...",
-                        'showConfirmButton': false,
+                        title: "Registered successfully",
+                        text: "waiting...",
+                        timer: 1000,
+                        timerProgressBar: true,
+                        didOpen: () => {
+                            Swal.showLoading()
+                        },
+                        willClose: () => {
+                            clearInterval(timerInterval)
+                        }
+                    }).then((result) => {
+                        if (result.dismiss === Swal.DismissReason.timer) {
+                            window.location = "https://liff.line.me/1657432903-V1Aolerg?docno=" + meetingId;
+                        }
                     })
-                    setTimeout(() => {
-                        window.location = "scan.php";
-                    },1000)
                 } else {
                     $("#loading").addClass("hidden");
                     Swal.fire({
                         'icon': "error",
                         'title': data.msg,
-                        'text': data.data
+                        'text': JSON.stringify(data.data)
                     })
                 }
             })
@@ -179,30 +191,40 @@
                         let data = resp
                         if (data.code === 200) {
                             $("#loading").addClass("hidden");
-                            setTimeout(() => {
-                                Swal.fire({
-                                    'icon': "success",
-                                    'title': "คุณได้ทำการลงทะเบียนแล้ว",
-                                    'text': "กรุณารอสักครู่...",
-                                    'showConfirmButton': false,
-                                })
-                                window.location = "scan.php";
-                            }, 1000);
+                            let timerInterval
+                            Swal.fire({
+                                title: "You are registered",
+                                text: "waiting...",
+                                timer: 1000,
+                                timerProgressBar: true,
+                                didOpen: () => {
+                                    Swal.showLoading()
+                                },
+                                willClose: () => {
+                                    clearInterval(timerInterval)
+                                }
+                            }).then((result) => {
+                                /* Read more about handling dismissals below */
+                                if (result.dismiss === Swal.DismissReason.timer) {
+                                    window.location = "https://liff.line.me/1657432903-V1Aolerg?docno=" + meetingId;
+                                }
+                            })
                         } else if (data.code === 400) {
                             $("#loading").addClass("hidden");
                         }
                     })
                     .fail((error) => {
+                        alert(JSON.stringify(error))
                         console.log(error);
                     })
             })
     }
     liff.init({
-            liffId: "1655384297-Y7egqg67",
+            liffId: "1657432903-bGRepN3d",
         },
         () => {
             getProfileUser();
-        }, (err) => alert(err.message)
+        }, (err) => console.log(err.message)
     );
 </script>
 
