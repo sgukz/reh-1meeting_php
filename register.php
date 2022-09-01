@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register | REH 1Meeting</title>
-    <link rel="shortcut icon" href="src/assets/img/new_logo_reh.png" type="image/x-icon">
+    <link rel="shortcut icon" href="src/assets/img/logo.ico" type="image/x-icon">
     <link rel="stylesheet" href="src/assets/css/materialize.min.css">
     <link rel="stylesheet" href="src/assets/css/style.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -45,6 +45,16 @@
             <div id="profile"></div>
             <div class="card">
                 <div class="card-content">
+                    <div id="profile">
+                        <div class="row valign-wrapper">
+                            <div class="col s3">
+                                <img id="profile-img" class="cricle responsive-img" src="src/assets/img/new_logo_reh.png" width="100" alt="image profile">
+                            </div>
+                            <div class="col s9">
+                                <span id="profile-name"></span>
+                            </div>
+                        </div>
+                    </div>
                     <div id="section-form-register">
                         <form id="form_register">
                             <div class="row center-align">
@@ -182,6 +192,10 @@
             .then((profile) => {
                 const userId = profile.userId;
                 $("#userId").val(userId);
+                let urlProfile = profile.pictureUrl
+                let profileName = profile.displayName
+                document.getElementById("profile-img").src = urlProfile
+                document.getElementById("profile-name").innerHTML = profileName
                 $.ajax({
                         method: "GET",
                         url: `${base_url}/checkUser/${userId}`,

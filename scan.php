@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>REH 1Meeting</title>
-    <link rel="shortcut icon" href="src/assets/img/new_logo_reh.png" type="image/x-icon">
+    <link rel="shortcut icon" href="src/assets/img/logo.ico" type="image/x-icon">
     <link rel="stylesheet" href="src/assets/css/materialize.min.css">
     <link rel="stylesheet" href="src/assets/css/style.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -45,6 +45,17 @@
             <div id="profile"></div>
             <div class="card">
                 <div class="card-content">
+                    <div id="profile">
+                        <div class="row valign-wrapper">
+                            <div class="col s3">
+                                <img id="profile-img" class="cricle responsive-img" src="src/assets/img/new_logo_reh.png" width="100" alt="image profile">
+                            </div>
+                            <div class="col s9">
+                                <span id="profile-name"></span><br>
+                                <span id="full_name"></span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="center-align" id="section-lebel-scan">
                         <strong class="blue-text"><b>Please Scan QR Code to sign for the meeting </b></strong>
                     </div>
@@ -257,6 +268,10 @@
             .getProfile()
             .then((profile) => {
                 const userId = profile.userId;
+                let urlProfile = profile.pictureUrl
+                let profileName = profile.displayName
+                document.getElementById("profile-img").src = urlProfile
+                document.getElementById("profile-name").innerHTML = profileName
                 $.ajax({
                         method: "GET",
                         url: `${base_url}/checkUser/${userId}`
@@ -265,6 +280,10 @@
                         let data = resp
                         if (data.code === 200) {
                             $("#loading").addClass("hidden");
+                            data.data.map(val => {
+                                document.getElementById("full_name").innerHTML = `${val.fullname} (${val.depart_name} ${val.main_company})`
+                                return true
+                            })
                         } else if (data.code === 400) {
                             $("#loading").addClass("hidden");
                             let timerInterval
